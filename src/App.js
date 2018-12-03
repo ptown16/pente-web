@@ -54,7 +54,7 @@ class Box extends Component {
     }
     return (
       <div className="square" onClick={() => this.setState({hasPiece: true})}>
-        <div class="dot">({this.props.x}, {this.props.y})</div>
+        <div className="dot">({this.props.x}, {this.props.y})</div>
       </div>
     );
   }
@@ -68,4 +68,14 @@ class Piece extends Component {
   }
 }
 
-export default Board;
+class Game extends Component {
+  render() {
+    return (
+      <div className="App">
+        <Board boardSize={12}/>
+      </div>
+    );
+  }
+}
+
+export default Game;

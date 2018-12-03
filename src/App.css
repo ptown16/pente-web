@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .App-logo {
@@ -44,10 +46,6 @@
   height: 40px;
   justify-content: flex-start;
   display: flex;
-}
-
-.board {
-  align-text: center;
 }
 
 @keyframes App-logo-spin {
