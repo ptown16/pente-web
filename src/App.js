@@ -40,8 +40,7 @@ class Box extends Component {
   render() {
     return (
       <div class="square">
-        {this.props.x}
-        {this.props.y}
+        ({this.props.x}, {this.props.y})
       </div>
     );
   }
