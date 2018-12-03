@@ -13,7 +13,7 @@ class Board extends Component {
       row.push(this.renderBox(i, rowPos));
     }
     return (
-      <div class="row">
+      <div className="row">
       {row}
       </div>
     );
@@ -29,7 +29,7 @@ class Board extends Component {
     
   render() {
     return(
-      <div class="board">
+      <div className="board">
         {this.renderBoard()}
       </div>
     );
@@ -37,11 +37,33 @@ class Board extends Component {
 }
 
 class Box extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasPiece: false,
+    };
+  } 
+  
   render() {
+    if (this.state.hasPiece) {
+      return (
+        <div className="square">
+          <Piece color="#008080" />
+        </div>
+      );
+    }
     return (
-      <div class="square">
-        ({this.props.x}, {this.props.y})
+      <div className="square" onClick={() => this.setState({hasPiece: true})}>
+        <div class="dot">({this.props.x}, {this.props.y})</div>
       </div>
+    );
+  }
+}
+
+class Piece extends Component {
+  render() {
+    return(
+      <div className="dot" style={{backgroundColor:this.props.color}}></div>
     );
   }
 }

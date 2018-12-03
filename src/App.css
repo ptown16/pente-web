@@ -24,10 +24,30 @@
 
 .square {
   border: 1px solid black;
-  width: 60px;
-  height: 60px;
-  display: inline-block;
-  text-align: center;
+  width: 40px;
+  height: 40px;
+  display: inline-grid;
+  align-content: center;
+  justify-content: center;
+  font-size: 8px;
+}
+
+.dot {
+  width: 30px;
+  height: 30px;
+  display: inline;
+  border-radius: 50%;
+}
+
+.row {
+  white-space: nowrap;
+  height: 40px;
+  justify-content: flex-start;
+  display: flex;
+}
+
+.board {
+  align-text: center;
 }
 
 @keyframes App-logo-spin {
