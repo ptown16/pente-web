@@ -3,8 +3,15 @@ import React, { Component } from 'react';
 import './App.css';
 
 class Board extends Component { 
+  constructor(props){
+    super(props);
+    this.state = {
+      currentColorIndex: 0,
+    };
+  }
+  
   renderBox(xPos, yPos) {
-    return <Box x={xPos} y={yPos} />;
+    return <Box x={xPos} y={yPos} onClick={() => this.renderPiece()}/>;
   }
     
   renderRow(rowPos) {
@@ -26,9 +33,19 @@ class Board extends Component {
     }
     return column;
   }
+  
+  renderPiece() {
+    let i = this.state.currentColorIndex;
+    if (this.state.currentColorIndex >= this.props.colors.length - 1) {
+      this.setState({currentColorIndex: 0});
+    } else {
+      this.setState({currentColorIndex: i + 1});
+    }
+    return (<div className="dot" style={{backgroundColor: this.props.colors[i]}}></div>);
+  }
     
   render() {
-    return(
+    return (
       <div className="board">
         {this.renderBoard()}
       </div>
@@ -41,6 +58,7 @@ class Box extends Component {
     super(props);
     this.state = {
       hasPiece: false,
+      piece: undefined,
     };
   } 
   
@@ -48,31 +66,31 @@ class Box extends Component {
     if (this.state.hasPiece) {
       return (
         <div className="square">
-          <Piece color="#008080" />
+          {this.state.piece}
         </div>
       );
     }
     return (
-      <div className="square" onClick={() => this.setState({hasPiece: true})}>
+      <div className="square" onClick={() => this.clickHandler()}>
         <div className="dot">({this.props.x}, {this.props.y})</div>
       </div>
     );
   }
-}
-
-class Piece extends Component {
-  render() {
-    return(
-      <div className="dot" style={{backgroundColor:this.props.color}}></div>
-    );
+  
+  clickHandler() {
+    this.setState({
+      hasPiece: true,
+      piece: this.props.onClick(),
+    });
   }
 }
 
 class Game extends Component {
+  
   render() {
     return (
       <div className="App">
-        <Board boardSize={12}/>
+        <Board boardSize={19} colors={["#0A2239", "#A50005", "#087E8B", "#345830", "#FF4D80"]}/>
       </div>
     );
   }
