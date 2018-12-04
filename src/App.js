@@ -19,19 +19,22 @@ class Board extends Component {
     for (let i = 0; i < this.props.boardSize; i++) {
       row.push(this.renderBox(i, rowPos));
     }
-    return (
-      <div className="row">
-      {row}
-      </div>
+    const keyedRow = row.map((box) =>
+        <div className="square" key={box.props.x + box.props.y * this.props.boardSize}>{box}</div>
     );
+    return keyedRow;
   }
   
   renderBoard() {
-  let column = [];
+    let column = [];
     for (let i = 0; i < this.props.boardSize; i++) {
       column.push(this.renderRow(i));
     }
-    return column;
+    const keyedColumn = column.map((row) =>
+      <div className="row" key={row[0].key}>{row}</div>
+    );
+    console.log(keyedColumn);
+    return keyedColumn;
   }
   
   renderPiece() {
