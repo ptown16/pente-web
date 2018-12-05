@@ -8,7 +8,7 @@ class Board extends Component {
     this.state = {
       currentColorIndex: 0,
       hasGridGenerated: false,
-      pieceGrid: Array(360).fill(false)
+      pieceGrid: Array(361).fill(false)
     };
   }
   
@@ -65,6 +65,27 @@ class Board extends Component {
     }
   }
   
+  testFiveInARow(xPos, yPos, xInterval, yInterval) {
+    const start = this.state.pieceGrid[this.xyPosToArray(xPos, yPos)];
+    let forwardsCounter = 0;
+    let nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)]; 
+    while (start === nextChain && (xInterval === 0 || forwardsCounter + xPos < this.props.boardSize) && (yInterval === 0 || forwardsCounter + yPos >= this.props.boardSize)) {
+      forwardsCounter += 1
+      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + (forwardsCounter * xInterval), yPos + (forwardsCounter * yInterval))];
+      console.assert(forwardsCounter < this.props.boardSize, "Counter backwards went further than bounds of board.");
+    }
+    nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - xInterval, yPos - yInterval)];
+    let backwardsCounter = 0;
+    while (start === nextChain && (xInterval === 0 || backwardsCounter <= xPos) && (yInterval === 0 || backwardsCounter <= yPos)) {
+      backwardsCounter += 1
+      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - (backwardsCounter * xInterval), yPos - (backwardsCounter * yInterval))];
+      console.assert(backwardsCounter < this.props.boardSize, "Counter backwards went further than bounds of board.");
+    }
+    if (backwardsCounter + forwardsCounter >= 5) {
+      console.log(`The player with color ${this.props.colors[start]} wins!`);
+    }
+  }
+  
   renderPiece(xPos, yPos) {
     let i = this.state.currentColorIndex;
     this.state.pieceGrid[xPos + (19 * yPos)] = i;
@@ -73,16 +94,22 @@ class Board extends Component {
     } else {
       this.setState({currentColorIndex: i + 1});
     }
-    this.updateJumps(xPos, yPos);
+    this.updateGame(xPos, yPos);
     return (<div className="dot" style={{backgroundColor: this.props.colors[i]}}></div>);
   }
             
-  updateJumps(xPos, yPos) {
+  updateGame(xPos, yPos) {
     for (let i = -1; i <= 1; i++) {
       for (let j = -1; j <= 1; j++) {
         if (i !== 0 || j !== 0) {
           this.testSingleJump(xPos, yPos, i, j);
         }
+      }
+    }
+    for (let i = 0; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        if(i !== 0 || j > 0)
+        this.testFiveInARow(xPos, yPos, i, j)
       }
     }
   }
@@ -114,7 +141,6 @@ class Box extends Component {
     }
     return (
       <div className="square" onClick={() => this.clickHandler()}>
-        <div className="dot">({this.props.x}, {this.props.y})</div>
       </div>
     );
   }
@@ -132,6 +158,7 @@ class Game extends Component {
     const board = <Board boardSize={19} colors={["#123456", "blue"]}/>;
     return (
       <div>
+        <h2 className="title">Pente Web</h2>
         <div className="App">
           {board}
         </div>
