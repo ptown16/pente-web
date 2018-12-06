@@ -69,19 +69,19 @@ class Board extends Component {
     const start = this.state.pieceGrid[this.xyPosToArray(xPos, yPos)];
     let forwardsCounter = 0;
     let nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)]; 
-    while (start === nextChain && (xInterval === 0 || forwardsCounter + xPos < this.props.boardSize) && (yInterval === 0 || forwardsCounter + yPos >= this.props.boardSize)) {
+    while (start === nextChain && (xInterval === 0 || forwardsCounter + xPos < this.props.boardSize) && (yInterval === 0 || forwardsCounter + yPos < this.props.boardSize)) {
       forwardsCounter += 1
-      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + (forwardsCounter * xInterval), yPos + (forwardsCounter * yInterval))];
-      console.assert(forwardsCounter < this.props.boardSize, "Counter backwards went further than bounds of board.");
+      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + ((forwardsCounter + 1) * xInterval), yPos + ((forwardsCounter + 1) * yInterval))];
+      console.assert(forwardsCounter < this.props.boardSize, "Counter forwards went further than bounds of board.");
     }
-    nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - xInterval, yPos - yInterval)];
     let backwardsCounter = 0;
+    nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - xInterval, yPos - yInterval)];
     while (start === nextChain && (xInterval === 0 || backwardsCounter <= xPos) && (yInterval === 0 || backwardsCounter <= yPos)) {
       backwardsCounter += 1
-      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - (backwardsCounter * xInterval), yPos - (backwardsCounter * yInterval))];
+      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - ((backwardsCounter + 1) * xInterval), yPos - ((backwardsCounter + 1) * yInterval))];
       console.assert(backwardsCounter < this.props.boardSize, "Counter backwards went further than bounds of board.");
     }
-    if (backwardsCounter + forwardsCounter >= 5) {
+    if (backwardsCounter + forwardsCounter >= 4) {
       console.log(`The player with color ${this.props.colors[start]} wins!`);
     }
   }
