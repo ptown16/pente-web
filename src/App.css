@@ -56,6 +56,28 @@
   text-align: center;
 }
 
+.scoreboard {
+  border: 1px solid black;
+  width: 200px;
+  height: 50%;
+}
+
+.pair {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 5px;
+}
+
+.filled {
+  background-color: rgba(255,0,0,1);
+}
+
+.unfilled {
+  background-color: rgba(255,0,0,.5);
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
