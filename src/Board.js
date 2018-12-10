@@ -114,6 +114,7 @@ class Board extends Component {
     // If it has counted four total outside of the piece just placed, it will declare a winner (in console for now)
     if (backwardsCounter + forwardsCounter >= 4) {
       console.log(`The player with color ${this.props.colors[start]} wins!`);
+      this.props.updateGame(start, 'hasWon', true);
     }
   }
 
