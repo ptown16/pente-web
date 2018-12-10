@@ -19,7 +19,7 @@ class Scoreboard extends Component {
       if (i < this.props.pairsJumped) {
         circles.push(<div className="pair" key={i} style={{backgroundColor: this.props.playerColor}}></div>);
       } else {
-        circles.push(<div className="pair unfilled" key={i} style={{backgroundColor: this.unfilledColor}}></div>);
+        circles.push(<div className="pair" key={i} style={{backgroundColor: this.unfilledColor}}></div>);
       }
     }
     return circles;

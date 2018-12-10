@@ -3,7 +3,7 @@ import './App.css';
 import Box from './Box.js'
 
 class Board extends Component {
-  
+
   constructor(props){
     super(props);
     this.state = {
@@ -12,12 +12,12 @@ class Board extends Component {
       pieceGrid: Array(this.props.boardSize * this.props.boardSize).fill(false)
     };
   }
-  
+
   // Converts two grid points to the array index for pieceGrid
   xyPosToArray(xPos, yPos) {
     return xPos + (this.props.boardSize * yPos);
   }
-  
+
   // Renders a single Box of Board
   renderBox(xPos, yPos) {
     let hasPiece = undefined;
@@ -25,10 +25,10 @@ class Board extends Component {
       hasPiece = false;
     } else {
       hasPiece = true;
-    } 
+    }
     return <Box x={xPos} y={yPos} hasPiece={hasPiece} onClick={() => this.renderPiece(xPos, yPos)}/>;
   }
-  
+
   // Renders rows of Board
   renderRow(rowPos) {
     let row = [];
@@ -40,7 +40,7 @@ class Board extends Component {
     );
     return keyedRow;
   }
-  
+
   // Renders grid of Board
   renderBoard() {
     let column = [];
@@ -53,12 +53,12 @@ class Board extends Component {
     );
     return keyedColumn;
   }
-  
+
   // Tests to see if a jump with that specific piece has been completed.
   testSingleJump(xPos, yPos, xInterval, yInterval) {
     // Makes sure that a jump can exist in this direction (so the jumps tested aren't out of bounds)
     if (xPos + (3 * xInterval) >= 0 && xPos + (3 * xInterval) < this.props.boardSize && yPos + (3 * yInterval) >= 0 && yPos + (3 * yInterval) < this.props.boardSize) {
-      const jump1 = this.state.pieceGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)]; 
+      const jump1 = this.state.pieceGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)];
       // Tests to see if the piece placed has a neighbor in that direction
       if (jump1 !== false) {
         const start = this.state.pieceGrid[this.xyPosToArray(xPos, yPos)];
@@ -70,6 +70,7 @@ class Board extends Component {
             const jump3 = this.state.pieceGrid[this.xyPosToArray(xPos + (3 * xInterval), yPos + (3 * yInterval))];
             // Tests to see if the encompassing piece is the same as the start.
             if (jump3 === start) {
+              this.props.updateGame(start, 'pairsJumped');
               // Remove the two pieces in the middle of the jump
               const newGrid = this.state.pieceGrid;
               newGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)] = false;
@@ -81,7 +82,7 @@ class Board extends Component {
       }
     }
   }
-  
+
   // Tests to see if a piece completes a 5 or longer chain in a specific direction
   testFiveInARow(xPos, yPos, xInterval, yInterval) {
     // Two separate tests to count pieces in front of and behind the piece placed
@@ -91,9 +92,9 @@ class Board extends Component {
     let nextChain = undefined;
     // Test to make sure the initial next chain is still in bounds
     if (xPos + xInterval < this.props.boardSize && xPos + xInterval >= 0 && yPos + yInterval < this.props.boardSize && yPos + yInterval >= 0) {
-      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)]; 
+      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)];
     }
-    // Keep counting until it hits an edge OR the piece at a spot is not equal to the starting piece 
+    // Keep counting until it hits an edge OR the piece at a spot is not equal to the starting piece
     while (start === nextChain && (xInterval === 0 || forwardsCounter + xPos < this.props.boardSize) && (yInterval === 0 || forwardsCounter + yPos < this.props.boardSize)) {
       forwardsCounter += 1
       nextChain = this.state.pieceGrid[this.xyPosToArray(xPos + ((forwardsCounter + 1) * xInterval), yPos + ((forwardsCounter + 1) * yInterval))];
@@ -103,8 +104,8 @@ class Board extends Component {
     nextChain = undefined;
     // Test to make sure the initial next chain is still in bounds
     if (xPos - xInterval < this.props.boardSize && xPos - xInterval >= 0 && yPos - yInterval < this.props.boardSize && yPos - yInterval >= 0) {
-      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - xInterval, yPos - yInterval)]; 
-    } 
+      nextChain = this.state.pieceGrid[this.xyPosToArray(xPos - xInterval, yPos - yInterval)];
+    }
     // Keep counting until it hits an edge OR the piece at a spot is not equal to the starting piece
     while (start === nextChain && (xInterval === 0 || backwardsCounter <= xPos) && (yInterval === 0 || backwardsCounter <= yPos)) {
       backwardsCounter += 1
@@ -115,7 +116,7 @@ class Board extends Component {
       console.log(`The player with color ${this.props.colors[start]} wins!`);
     }
   }
-  
+
   // Updates the board to see if any jump comditions or win conditions are met for the piece that has just been places
   updateBoard(xPos, yPos) {
     for (let i = -1; i <= 1; i++) {
@@ -134,14 +135,14 @@ class Board extends Component {
       }
     }
   }
-  
+
   addPiece(xPos, yPos, i) {
     // newGrid is made so that we don't directly mutilate the state
     const newGrid = this.state.pieceGrid;
     newGrid[this.xyPosToArray(xPos, yPos)] = i;
     this.setState({pieceGrid: newGrid});
   }
-  
+
   determineNextColor(i) {
     // This conditional is made to update the color of the next piece to be the next color.
     if (this.state.currentColorIndex >= this.props.colors.length - 1) {
@@ -150,7 +151,7 @@ class Board extends Component {
       this.setState({currentColorIndex: i + 1});
     }
   }
-   
+
   // Renders a specific piece when a box is clicked (this method is passed into every Box element as an arrow function)
   renderPiece(xPos, yPos) {
     // i is the index within colors that the next rendered piece is going to be
