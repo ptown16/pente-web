@@ -6,15 +6,16 @@ import ColorPicker from './ColorPicker.js'
 class Scoreboard extends Component {
   constructor(props) {
     super(props);
-    this.unfilledColor = this.getUnfilledColor();
+    this.unfilledColor = this.getUnfilledColor(this.props.playerColor);
   }
 
-  getUnfilledColor() {
-      const filledColor = this.props.playerColor.split(',');
+  getUnfilledColor(color) {
+      const filledColor = color.split(',');
       return `${filledColor[0]},${filledColor[1]},${filledColor[2]}, 0.3)`;
   }
 
   renderCircles() {
+    console.log(this.props.playerColor);
     const circles = [];
     for (let i = 0; i < 5; i++) {
       if (i < this.props.pairsJumped) {
@@ -24,6 +25,12 @@ class Scoreboard extends Component {
       }
     }
     return circles;
+  }
+
+  submitColor(rgb) {
+    const convertedColor = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1)`;
+    this.props.updateColor(convertedColor);
+    this.unfilledColor = this.getUnfilledColor(convertedColor);
   }
 
   render() {
@@ -37,7 +44,7 @@ class Scoreboard extends Component {
           </div>
           <button className="change-color" style={{backgroundColor: this.props.playerColor}}>Change Color</button>
         </div>
-        <ColorPicker />
+        <ColorPicker submitColor={(rgb) => this.submitColor(rgb)}/>
       </div>
     );
   }
