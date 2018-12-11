@@ -3,18 +3,13 @@ import './App.css';
 
 // Component for individual box that can either be empty or hold a piece.
 class Box extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      piece: undefined,
-    };
-  } 
-  
+
   render() {
+
     if (this.props.hasPiece) {
       return (
         <div className="square">
-          {this.state.piece}
+          <div className="dot" style={{backgroundColor: this.props.pieceColor}}></div>
         </div>
       );
     }
@@ -23,11 +18,9 @@ class Box extends Component {
       </div>
     );
   }
-  
+
   clickHandler() {
-    this.setState({
-      piece: this.props.onClick(),
-    });
+    this.props.onClick();
   }
 }
 

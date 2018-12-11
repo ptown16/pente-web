@@ -21,12 +21,14 @@ class Board extends Component {
   // Renders a single Box of Board
   renderBox(xPos, yPos) {
     let hasPiece = undefined;
+    let pieceColor = undefined;
     if (this.state.pieceGrid[this.xyPosToArray(xPos, yPos)] === false) {
       hasPiece = false;
     } else {
       hasPiece = true;
+      pieceColor = this.props.colors[this.state.pieceGrid[this.xyPosToArray(xPos, yPos)]];
     }
-    return <Box x={xPos} y={yPos} hasPiece={hasPiece} onClick={() => this.renderPiece(xPos, yPos)}/>;
+    return <Box x={xPos} y={yPos} hasPiece={hasPiece} pieceColor={pieceColor} onClick={() => this.renderPiece(xPos, yPos)}/>;
   }
 
   // Renders rows of Board
@@ -162,7 +164,6 @@ class Board extends Component {
     // Test win and jump conditions
     this.updateBoard(xPos, yPos);
     // The actual piece itself
-    return (<div className="dot" style={{backgroundColor: this.props.colors[i]}}></div>);
   }
 
   // Renders the board
