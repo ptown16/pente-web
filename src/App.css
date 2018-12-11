@@ -97,10 +97,6 @@ button:focus {
   background: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%);
 }
 
-#saturation {
-  background: linear-gradient(to right, rgb(0, 0, 0) 0%, rgb(0, 255, 255));
-}
-
 .slider-container {
   padding: 5px;
 }
