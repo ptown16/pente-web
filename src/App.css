@@ -4,24 +4,8 @@
   justify-content: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+button:focus {
+  outline:0;
 }
 
 .square {
@@ -59,7 +43,6 @@
 .scoreboard {
   border: 1px solid black;
   width: 200px;
-  height: 50%;
 }
 
 .pair {
@@ -86,4 +69,57 @@
   -webkit-transform: translate(-50%, -150%);
   font-size: 60px;
   z-index: 5;
+}
+
+.change-color {
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+  border: 1px solid white;
+  margin: 10px;
+}
+
+.change-color:hover {
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 90%; /* Full-width */
+  height: 10px; /* Specified height */
+  outline: none; /* Remove outline */
+}
+
+#hue {
+  background: linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%);
+}
+
+#saturation {
+  background: linear-gradient(to right, rgb(0, 0, 0) 0%, rgb(0, 255, 255));
+}
+
+.slider-container {
+  padding: 5px;
+}
+
+.color-picker-container {
+  width: 200px;
+  background: #eeeeee;
+  border: 1px solid #dddddd;
+  padding: 10px 0;
+}
+
+.top-arrow {
+  position: relative;
+  width: 0;
+  height: 0;
+  left: 50%;
+  top: -23px;
+  -webkit-transform: translateX(-50%);
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #eeeeee;
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import ColorPicker from './ColorPicker.js'
 
 
 class Scoreboard extends Component {
@@ -27,12 +28,16 @@ class Scoreboard extends Component {
 
   render() {
     return (
-      <div className="scoreboard">
-        <h2 style={{color: this.props.playerColor}}>Player {this.props.playerID + 1}</h2>
-        <div className="circles">
-          <p>Pairs Jumped:</p>
-          {this.renderCircles()}
+      <div>
+        <div className="scoreboard">
+          <h2 style={{color: this.props.playerColor}}>Player {this.props.playerID + 1}</h2>
+          <div className="circles">
+            <p>Pairs Jumped:</p>
+            {this.renderCircles()}
+          </div>
+          <button className="change-color" style={{backgroundColor: this.props.playerColor}}>Change Color</button>
         </div>
+        <ColorPicker />
       </div>
     );
   }
