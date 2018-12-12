@@ -44,20 +44,24 @@ class ColorPicker extends Component {
   }
 
   render() {
-    return (
-      <div className="color-picker-container">
-        <div className="top-arrow"></div>
-        <div className="color-picker">
-          <div className="slider-container">
-            <input type="range" min="0" max="1529" defaultValue={765} className="slider" id="hue" onChange={(event) => {this.setState({hue: event.target.value}); this.updateHueRGB();}}/>
+    if (this.props.visible) {
+      return (
+        <div className="color-picker-container">
+          <div className="top-arrow"></div>
+          <div className="color-picker">
+            <div className="slider-container">
+              <input type="range" min="0" max="1529" defaultValue={765} className="slider" id="hue" onChange={(event) => {this.setState({hue: event.target.value}); this.updateHueRGB();}}/>
+            </div>
+            <div className="slider-container">
+              <input type="range" min="0" max="255" defaultValue={255} className="slider" id="saturation" style={{background: `linear-gradient(to right, rgb(0, 0, 0) 0%, rgba(${this.state.hueRgb[0]}, ${this.state.hueRgb[1]}, ${this.state.hueRgb[2]}, 1))`}} onChange={(event) => {this.setState({saturation: event.target.value}); this.updateFinalRGB();}}/>
+            </div>
+            <button onClick={() =>this.props.submitColor(this.state.finalRgb)}>Done</button>
           </div>
-          <div className="slider-container">
-            <input type="range" min="0" max="255" defaultValue={255} className="slider" id="saturation" style={{background: `linear-gradient(to right, rgb(0, 0, 0) 0%, rgba(${this.state.hueRgb[0]}, ${this.state.hueRgb[1]}, ${this.state.hueRgb[2]}, 1))`}} onChange={(event) => {this.setState({saturation: event.target.value}); this.updateFinalRGB();}}/>
-          </div>
-          <button onClick={() =>this.props.submitColor(this.state.finalRgb)}>Done</button>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (<div></div>);
+    }
   }
 }
 export default ColorPicker;

@@ -7,6 +7,9 @@ class Scoreboard extends Component {
   constructor(props) {
     super(props);
     this.unfilledColor = this.getUnfilledColor(this.props.playerColor);
+    this.state = {
+      isPickingColor: false,
+    }
   }
 
   getUnfilledColor(color) {
@@ -31,6 +34,7 @@ class Scoreboard extends Component {
     const convertedColor = `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 1)`;
     this.props.updateColor(convertedColor);
     this.unfilledColor = this.getUnfilledColor(convertedColor);
+    this.setState({isPickingColor: false});
   }
 
   render() {
@@ -42,9 +46,9 @@ class Scoreboard extends Component {
             <p>Pairs Jumped:</p>
             {this.renderCircles()}
           </div>
-          <button className="change-color" style={{backgroundColor: this.props.playerColor}}>Change Color</button>
+          <button className="change-color" style={{backgroundColor: this.props.playerColor}} onClick={() => this.setState({isPickingColor: !this.state.isPickingColor})} >Change Color</button>
         </div>
-        <ColorPicker submitColor={(rgb) => this.submitColor(rgb)}/>
+        <ColorPicker visible={this.state.isPickingColor} submitColor={(rgb) => this.submitColor(rgb)}/>
       </div>
     );
   }

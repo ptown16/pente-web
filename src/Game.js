@@ -35,7 +35,6 @@ class Game extends Component {
     this.setState({
       players: newPlayers,
     });
-    console.log(this.state.players);
   }
 
   render() {
