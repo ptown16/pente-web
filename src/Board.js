@@ -216,15 +216,32 @@ class Board extends Component {
     });
   }
 
+  existsUndoableMove() {
+    for (const move of this.state.prevMove) {
+      if (move.canUndo) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  renderUndoButton() {
+    if (this.existsUndoableMove()) {
+      return <button className="undo undo-active" onClick={() => this.undoMove()}>Undo Move</button>
+    } else {
+      return <button className="undo undo-disabled">Undo Move</button>
+    }
+  }
+
   // Renders the board
   render() {
-
+    let undoButton = this.renderUndoButton();
     return (
       <div>
         <div className="board">
           {this.renderBoard()}
         </div>
-        <button onClick={() => this.undoMove()}>Undo</button>
+        {undoButton}
       </div>
     );
   }

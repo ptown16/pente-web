@@ -119,3 +119,28 @@ button:focus {
   border-right: 15px solid transparent;
   border-bottom: 15px solid #eeeeee;
 }
+
+.undo {
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+.undo-active {
+  color: #111111;
+  background-color: #bbbbbb;
+  border: 2px solid #bbbbbb;
+}
+
+.undo-active:hover {
+  color: black;
+  background-color: #aaaaaa;
+  border: 2px solid #999999;
+  cursor: pointer;
+}
+
+.undo-disabled {
+  color: #bbbbbb;
+  background-color: #ffffff;
+  border: 2px solid #bbbbbb;
+}

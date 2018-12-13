@@ -1,25 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Game from './Game.js';
 import Board from './Board.js';
-import Box from './Board.js';
 
 import { shallow } from 'enzyme';
 
 it( 'Game renders without crashing', () =>{
   shallow(<Game />);
 });
-  
+
 it( 'Board renders without crashing', () =>{
   shallow(<Board boardSize={19} colors={["#123456", "blue"]} />);
 });
-  
+
 it( 'Test xyPosToArray', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
   expect(board.xyPosToArray(3, 1)).toEqual(9);
   expect(board.xyPosToArray(5, 5)).toEqual(35);
-});  
+});
 
 it( 'Test renderBox without piece added', () =>{
   const wrapper = shallow(<Board boardSize={19} colors={["#123456", "blue"]} />);
@@ -28,7 +26,7 @@ it( 'Test renderBox without piece added', () =>{
   expect(box.props.y).toEqual(0);
   expect(box.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test renderBox with piece added', () =>{
   const wrapper = shallow(<Board boardSize={19} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -39,7 +37,7 @@ it( 'Test renderBox with piece added', () =>{
   expect(box.props.hasPiece).toEqual(true);
 });
 
-  
+
 it( 'Test single jump no edges xIncrement: 0 and yIncrement: 1', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -53,7 +51,7 @@ it( 'Test single jump no edges xIncrement: 0 and yIncrement: 1', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump no edges xIncrement: 0 and yIncrement: -1', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -67,7 +65,7 @@ it( 'Test single jump no edges xIncrement: 0 and yIncrement: -1', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump no edges xIncrement: 1 and yIncrement: 0', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -81,7 +79,7 @@ it( 'Test single jump no edges xIncrement: 1 and yIncrement: 0', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump no edges xIncrement: 1 and yIncrement: 1', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -95,7 +93,7 @@ it( 'Test single jump no edges xIncrement: 1 and yIncrement: 1', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump no edges xIncrement: 1 and yIncrement: -1', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -109,7 +107,7 @@ it( 'Test single jump no edges xIncrement: 1 and yIncrement: -1', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump no edges xIncrement: -1 and yIncrement: 0', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -123,7 +121,7 @@ it( 'Test single jump no edges xIncrement: -1 and yIncrement: 0', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump no edges xIncrement: -1 and yIncrement: -1', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -137,7 +135,7 @@ it( 'Test single jump no edges xIncrement: -1 and yIncrement: -1', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump no edges xIncrement: -1 and yIncrement: 1', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
@@ -151,7 +149,7 @@ it( 'Test single jump no edges xIncrement: -1 and yIncrement: 1', () =>{
   expect(box1.props.hasPiece).toEqual(false);
   expect(box2.props.hasPiece).toEqual(false);
 });
-  
+
 it( 'Test single jump with edges xIncrement: 0 and yIncrement: 1', () =>{
   const wrapper = shallow(<Board boardSize={6} colors={["#123456", "blue"]} />);
   const board = wrapper.instance()
