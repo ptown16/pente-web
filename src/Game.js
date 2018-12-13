@@ -26,8 +26,8 @@ class Game extends Component {
         newPlayers[i].hasWon = false;
         newPlayers[i].wins += 1;
         this.board.current.remakeBoard(Math.abs(i - 1));
-        break;
       }
+      newPlayers[i].pairsJumped = 0;
     }
     this.setState({
       players: newPlayers
