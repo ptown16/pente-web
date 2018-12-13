@@ -76,13 +76,48 @@ button:focus {
   border-radius: 5px;
   color: white;
   border: 1px solid white;
-  margin: 10px;
+  margin: 15px;
 }
 
 .change-color:hover {
   color: black;
   border: 1px solid black;
   cursor: pointer;
+}
+
+.forfeit-game {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #e60000;
+  color: white;
+  border: 1px solid white;
+  margin: 5px;
+}
+
+.forfeit-game:hover {
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.decline-ff {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #aaaaaa;
+  color: white;
+  border: 1px solid white;
+  margin: 5px;
+}
+
+.decline-ff:hover {
+  color: black;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.warning-text {
+  color: #e60000;
+  font-size: 14px;
 }
 
 .slider {

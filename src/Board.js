@@ -6,12 +6,23 @@ class Board extends Component {
 
   constructor(props){
     super(props);
+    const startingGrid = Array(this.props.boardSize * this.props.boardSize).fill(false);
+    startingGrid[this.xyPosToArray(9, 9)] = 0;
     this.state = {
-      currentColorIndex: 0,
-      hasGridGenerated: false,
-      pieceGrid: Array(this.props.boardSize * this.props.boardSize).fill(false),
+      currentColorIndex: 1,
+      pieceGrid: startingGrid,
       prevMove: [{canUndo: false, position: [], jumps: [], winning: false}, {canUndo: false, position: [], jumps: [], winning: false}],
     };
+  }
+
+  remakeBoard(startID) {
+    const newGrid = Array(this.props.boardSize * this.props.boardSize).fill(false);
+    newGrid[this.xyPosToArray(9, 9)] = startID;
+    this.setState({
+      currentColorIndex: Math.abs(startID - 1),
+      pieceGrid: newGrid,
+      prevMove: [{canUndo: false, position: [], jumps: [], winning: false}, {canUndo: false, position: [], jumps: [], winning: false}]
+    });
   }
 
   // Converts two grid points to the array index for pieceGrid
@@ -235,13 +246,12 @@ class Board extends Component {
 
   // Renders the board
   render() {
-    let undoButton = this.renderUndoButton();
     return (
       <div>
         <div className="board">
           {this.renderBoard()}
         </div>
-        {undoButton}
+        {this.renderUndoButton()}
       </div>
     );
   }
