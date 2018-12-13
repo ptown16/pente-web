@@ -9,7 +9,8 @@ class Board extends Component {
     this.state = {
       currentColorIndex: 0,
       hasGridGenerated: false,
-      pieceGrid: Array(this.props.boardSize * this.props.boardSize).fill(false)
+      pieceGrid: Array(this.props.boardSize * this.props.boardSize).fill(false),
+      prevMove: [{canUndo: false, position: [], jumps: [], winning: false}, {canUndo: false, position: [], jumps: [], winning: false}],
     };
   }
 
@@ -72,12 +73,18 @@ class Board extends Component {
             const jump3 = this.state.pieceGrid[this.xyPosToArray(xPos + (3 * xInterval), yPos + (3 * yInterval))];
             // Tests to see if the encompassing piece is the same as the start.
             if (jump3 === start) {
-              this.props.updateGame(start, 'pairsJumped');
+              this.props.updateGame(start, 'pairsJumped', 1);
               // Remove the two pieces in the middle of the jump
               const newGrid = this.state.pieceGrid;
+              const newMove = this.state.prevMove;
               newGrid[this.xyPosToArray(xPos + xInterval, yPos + yInterval)] = false;
               newGrid[this.xyPosToArray(xPos + (2 * xInterval), yPos + (2 * yInterval))] = false;
-              this.setState({pieceGrid: newGrid});
+              newMove[this.state.currentColorIndex].jumps.push([xPos + xInterval, yPos + yInterval, jump1]);
+              newMove[this.state.currentColorIndex].jumps.push([xPos + (2 * xInterval), yPos + (2 * yInterval), jump2]);
+              this.setState({
+                pieceGrid: newGrid,
+                prevMove: newMove,
+              });
             }
           }
         }
@@ -115,7 +122,11 @@ class Board extends Component {
     }
     // If it has counted four total outside of the piece just placed, it will declare a winner (in console for now)
     if (backwardsCounter + forwardsCounter >= 4) {
-      console.log(`The player with color ${this.props.colors[start]} wins!`);
+      const newMove = this.state.prevMove;
+      newMove[this.state.currentColorIndex].winning = true;
+      this.setState({
+        prevMove: newMove,
+      });
       this.props.updateGame(start, 'hasWon', true);
     }
   }
@@ -142,16 +153,29 @@ class Board extends Component {
   addPiece(xPos, yPos, i) {
     // newGrid is made so that we don't directly mutilate the state
     const newGrid = this.state.pieceGrid;
+    const newMove = this.state.prevMove;
     newGrid[this.xyPosToArray(xPos, yPos)] = i;
-    this.setState({pieceGrid: newGrid});
+    newMove[i] = {canUndo: true, position: [xPos, yPos], jumps: [], winning: false};
+    this.setState({
+      pieceGrid: newGrid,
+      prevMove: newMove,
+    });
   }
 
-  determineNextColor(i) {
+  determineNextColor(i, forward) {
     // This conditional is made to update the color of the next piece to be the next color.
-    if (this.state.currentColorIndex >= this.props.colors.length - 1) {
-      this.setState({currentColorIndex: 0});
+    if (forward) {
+      if (this.state.currentColorIndex >= this.props.colors.length - 1) {
+        return 0
+      } else {
+        return i + 1;
+      }
     } else {
-      this.setState({currentColorIndex: i + 1});
+      if (this.state.currentColorIndex === 0) {
+        return this.props.colors.length - 1;
+      } else {
+        return i - 1;
+      }
     }
   }
 
@@ -160,17 +184,47 @@ class Board extends Component {
     // i is the index within colors that the next rendered piece is going to be
     let i = this.state.currentColorIndex;
     this.addPiece(xPos, yPos, i);
-    this.determineNextColor(i);
-    // Test win and jump conditions
     this.updateBoard(xPos, yPos);
-    // The actual piece itself
+
+    this.setState({
+      currentColorIndex: this.determineNextColor(i, true),
+    })
+  }
+
+  undoMove() {
+    const newMove = this.state.prevMove;
+    const newGrid = this.state.pieceGrid;
+    const undoingIndex = this.determineNextColor(this.state.currentColorIndex, false);
+    const undoing = newMove[undoingIndex];
+    if (undoing.canUndo) {
+      newGrid[this.xyPosToArray(undoing.position[0], undoing.position[1])] = false;
+      for (const jump of undoing.jumps) {
+        newGrid[this.xyPosToArray(jump[0], jump[1])] = jump[2];
+      }
+      this.props.updateGame(undoingIndex, 'pairsJumped', -(undoing.jumps.length / 2));
+      if (undoing.winning) {
+        this.props.updateGame(undoingIndex, 'hasWon', false);
+      }
+      newMove[undoingIndex] = {canUndo: false, position: [], jumps: [], winning: false};
+      this.setState({
+        currentColorIndex: undoingIndex,
+      });
+    }
+    this.setState({
+      pieceGrid: newGrid,
+      prevMove: newMove,
+    });
   }
 
   // Renders the board
   render() {
+
     return (
-      <div className="board">
-        {this.renderBoard()}
+      <div>
+        <div className="board">
+          {this.renderBoard()}
+        </div>
+        <button onClick={() => this.undoMove()}>Undo</button>
       </div>
     );
   }

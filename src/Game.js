@@ -20,13 +20,19 @@ class Game extends Component {
   updateGameState(playerID, key, value) {
     let newPlayers = this.state.players;
     if (key === 'pairsJumped') {
-      newPlayers[playerID].pairsJumped += 1;
-      if (this.state.players[playerID].pairsJumped >= 5) {
+      newPlayers[playerID].pairsJumped += value;
+      if (value > 0 && this.state.players[playerID].pairsJumped >= 5) {
         this.updateGameState(playerID, 'hasWon', true);
+      } else if (value < 0 && this.state.players[playerID].pairsJumped < 5) {
+        this.updateGameState(playerID, 'hasWon', false);
       }
     } else if (key === 'hasWon') {
       newPlayers[playerID].hasWon = value;
-      this.winMessage = <div className="win-container"><h1 className="win" style={{color: this.state.players[playerID].color}} >Player {playerID + 1} has won!</h1></div>;
+      if (value) {
+        this.winMessage = <div className="win-container"><h1 className="win" style={{color: this.state.players[playerID].color}} >Player {playerID + 1} has won!</h1></div>;
+      } else {
+        this.winMessage = undefined;
+      }
     } else if (key === 'color') {
       newPlayers[playerID].color = value;
     } else {

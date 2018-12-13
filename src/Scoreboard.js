@@ -18,7 +18,6 @@ class Scoreboard extends Component {
   }
 
   renderCircles() {
-    console.log(this.props.playerColor);
     const circles = [];
     for (let i = 0; i < 5; i++) {
       if (i < this.props.pairsJumped) {
